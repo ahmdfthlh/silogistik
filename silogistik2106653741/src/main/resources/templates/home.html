@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <title>Homepage</title>
+    <style>
+      .card:hover {
+        transform: scale(1.1);
+        transition: transform .3s;
+        
+      }
+    </style>
+  </head>
+  <body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container p-5">
+      <div class="mx-auto">
+        <img
+          class="mx-auto d-block"
+          src="../static/images/logo.png"
+          th:src="@{images/logo.png}"
+          width="250"
+          alt="logo SILOGISTIK"
+        />
+      </div>
+      <div class="row mt-5">
+        <div class="col p-2">
+          <div
+            class="card bg-primary text-light text-center"
+            style="width: 17rem; height: 14rem"
+          >
+            <div class="card-body p-5">
+              <div>Gudang</div>
+              <h1 class="mt-2" th:text="${jumlahGudang}"></h1>
+              <div>gudang</div>
+              <a href="/gudang" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+        <div class="col p-2">
+          <div
+            class="card text-light text-center"
+            style="
+              width: 17rem;
+              height: 14rem;
+              background-color: rgba(0, 123, 255, 0.85);
+            "
+          >
+            <div class="card-body p-5">
+              <div>Barang</div>
+              <h1 class="mt-2" th:text="${jumlahBarang}"></h1>
+              <div>barang</div>
+              <a href="/barang" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+        <div class="col p-2">
+          <div
+            class="card text-light text-center"
+            style="
+              width: 17rem;
+              height: 14rem;
+              background-color: rgba(0, 123, 255, 0.7);
+            "
+          >
+            <div class="card-body p-5">
+              <div>Permintaan Pengiriman</div>
+              <h1 class="mt-2" th:text="${jumlahPermintaanPengiriman}"></h1>
+              <div>permintaan pengiriman</div>
+              <a href="/permintaan-pengiriman" class="stretched-link"></a>
+            </div>
+          </div>
+        </div>
+        <div class="col p-2">
+          <div
+            class="card text-light text-center"
+            style="
+              width: 17rem;
+              height: 14rem;
+              background-color: rgba(0, 123, 255, 0.55);
+            "
+          >
+            <div class="card-body p-5">
+              <div>Karyawan</div>
+              <h1 class="mt-2" th:text="${jumlahKaryawan}"></h1>
+              <div>karyawan</div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

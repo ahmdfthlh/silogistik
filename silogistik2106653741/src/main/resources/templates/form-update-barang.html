@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Barang</title>
+    <!-- Tambahkan CSS atau elemen lain yang diperlukan -->
+    <object th:include="~{fragments/common :: js}" th:remove="tag"></object>
+    <object th:include="~{fragments/common :: css}" th:remove="tag"></object>
+    <style>
+        .custom-select {
+            position: relative;
+            display: inline-block;
+            width: 100%; /* Atur lebar sesuai kebutuhan Anda */
+        }
+
+        .custom-select select {
+            appearance: none; /* Menghilangkan tampilan default browser */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .custom-select::before {
+            content: '\25BC'; /* Menambahkan panah ke elemen select */
+            position: absolute;
+            top: 50%;
+            right: 10px; /* Atur posisi panah sesuai kebutuhan Anda */
+            transform: translateY(-50%);
+        }
+
+    </style>
+</head>
+<body>
+   <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+   <div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                
+                <h2>Tambah Barang</h2>
+                <br>
+                <form th:action="@{/barang/{sku}/ubah}" th:object="${barangDTO}" method="POST">
+                    SKU: <br>
+                    <input class="form-control" type="text" th:field="*{sku}" readonly />
+                    <br>
+
+                    Merk Barang: <br>
+                    <input class="form-control" type="text" th:field="*{merk}" required/>
+                    <br>
+                    
+                    Tipe Barang: <br>
+                    <div class="custom-select">
+                        <select class="form-control" th:field="*{tipe_barang}" disabled>
+                            <option value="1">Produk Elektronik</option>
+                            <option value="2">Pakaian & Aksesoris</option>
+                            <option value="3">Makanan & Minuman</option>
+                            <option value="4">Kosmetik</option>
+                            <option value="5">Perlengkapan Rumah</option>
+                        </select>
+                    </div>
+                    <br><br>
+                        
+                    Harga Barang: <br>
+                    <input class="form-control" type="number" th:field="*{harga_barang}" required min="0"/>
+                    <br><br>
+                    
+                    <a class="btn btn-danger" href="/">Batal</a>
+                    <button class="btn btn-primary" type="submit">Simpan</button>
+                </form>
+            </div>
+        </div>
+        </div>
+   </div>
+</body>
+</html>

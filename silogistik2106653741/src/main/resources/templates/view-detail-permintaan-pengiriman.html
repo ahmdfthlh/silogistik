@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Detail Permintaan Pengiriman</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px; /* Atur jarak antar item jika diperlukan */
+            text-align: left; /* Atur rata kiri untuk teks */
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            margin: 0; /* Menghapus margin bawah yang ada secara default pada elemen <p> */
+        }
+
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container mt-5">
+        <div class="header">
+            <h2>Detail Permintaan Pengiriman</h2>
+            <a type="button" class="btn btn-danger m-2" th:href="@{/permintaan-pengiriman/{idPermintaanPengiriman}/cancel(idPermintaanPengiriman=${idPermintaanPengiriman})}">Cancel Permintaan</a>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="item">
+                    <h4>No. Permintaan Pengiriman:</h4>
+                    <p th:text="${permintaanPengiriman.nomor_pengiriman}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Waktu Permintaan:</h4>
+                    <p th:text="${#dates.format(permintaanPengiriman.waktuPermintaan, 'dd-MM-yyyy, HH:mm')}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Karyawan Bertugas:</h4>
+                    <p th:text="${permintaanPengiriman.karyawan.name}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Waktu Pengiriman:</h4>
+                    <p th:text="${#dates.format(permintaanPengiriman.tanggal_pengiriman, 'dd-MM-yyyy')}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Nama Penerima:</h4>
+                    <p th:text="${permintaanPengiriman.nama_penerima}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Alamat Penerima:</h4>
+                    <p th:text="${permintaanPengiriman.alamat_penerima}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>Jenis Layanan:</h4>
+                    <p th:switch="${permintaanPengiriman.jenis_layanan}">
+                        <span th:case="1">Same Day</span>
+                        <span th:case="2">Kilat</span>
+                        <span th:case="3">Reguler</span>
+                        <span th:case="4">Hemat</span>
+                        <span th:case="*">Jenis Layanan Pengiriman Tidak Diketahui</span>
+                    </p>
+                </div>
+                
+                <div class="item">
+                    <h4>Biaya Pengiriman:</h4>
+                    <span>
+                        <p>Rp</p>
+                        <p th:text="${permintaanPengiriman.biaya_pengiriman}"></p>
+                    </span>
+                </div>
+            
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Daftar Barang Dipesan</h3>
+                <table class="table table-striped table-bordered" id="barangTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Merk</th>
+                            <th>Kuantitas Pesanan</th>
+                            <th>Total Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="permintaanPengirimanBarang, iterStat : ${permintaanPengiriman.listBarang}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td th:text="${permintaanPengirimanBarang.barang.sku}"></td>
+                            <td th:text="${permintaanPengirimanBarang.barang.merk}"></td>
+                            <td th:text="${permintaanPengirimanBarang.kuantitas_pengiriman}"></td>
+                            <td th:text="'Rp' + ${permintaanPengirimanBarang.kuantitas_pengiriman * permintaanPengirimanBarang.barang.harga_barang}"></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="row mb-2">
+            <div style="text-align: center;">
+                <a href="/gudang" class="btn btn-primary">Kembali</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

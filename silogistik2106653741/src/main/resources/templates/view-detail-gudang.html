@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Detail Gudang</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container mt-5">
+        <div class="header">
+            <h2>Detail Gudang</h2>
+            <a type="button" class="btn btn-primary m-2" th:href="@{/gudang/{idGudang}/restock-barang(idGudang=${gudang.id})}">+ Restock Barang</a>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Nama Gudang:</h4>
+                <p th:text="${gudang.nama}"></p>
+                <h4>Alamat Gudang:</h4>
+                <p th:text="${gudang.alamat_gudang}"></p>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Daftar Barang Tersedia</h3>
+                <table class="table table-striped table-bordered" id="barangTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>SKU</th>
+                            <th>Merk</th>
+                            <th>Stok</th>
+                            <th>Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="gudangbarang, iterStat : ${gudang.listBarang}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td>
+                                <a style="text-decoration: none;" th:href="@{'/barang/' + ${gudangbarang.barang.sku}}" th:text="${gudangbarang.barang.sku}"></a>
+                            </td>
+                            <td th:text="${gudangbarang.barang.merk}"></td>
+                            <td th:text="${gudangbarang.stok}"></td>
+                            <td th:text="${gudangbarang.barang.harga_barang}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div style="text-align: center;">
+                <a href="/gudang" class="btn btn-primary">Kembali</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Cari Barang</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container">
+        <h2 class="mt-5">Cari Barang</h2>
+        
+        <form th:action="@{/gudang/cari-barang}" method="get">
+            <div class="form-group">
+                <label for="sku">Pilih Barang:</label>
+                <select class="form-control" id="sku" name="sku">
+                    <option th:each="barang : ${listBarang}" th:value="${barang.sku}"
+                        th:text="${barang.merk}"></option>
+                </select>
+                
+            </div>
+            <!-- Menggunakan flexbox untuk menempatkan tombol di tengah dan memberikan jarak atas -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-top: 10px; margin-bottom: 20px;">
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </div>
+        </form>
+
+        <div th:if="${param.sku != null and (listGudangBarang == null or listGudangBarang.size() == 0)}" class="alert alert-warning" role="alert">
+            Tidak ada gudang yang sesuai dengan barang yang Anda cari.
+        </div>
+
+        <table class="table table-striped table-bordered" id="gudangTable" th:if="${param.sku != null and listGudangBarang != null and listGudangBarang.size() > 0}">
+            <span style="display: flex; flex-direction: column; align-items: center;">
+                <p>Barang yang dicari: <h4 th:text="${barangCari.merk}"></h4></p>
+            </span>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama Gudang</th>
+                    <th>Alamat Gudang</th>
+                    <th>Stok Barang</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Isi tabel dengan data gudang yang memuat barang dengan SKU yang dipilih -->
+                <tr th:each="gudangBarang, iterStat : ${listGudangBarang}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td>
+                        <a style="text-decoration: none;" th:href="@{'/gudang/' + ${gudangBarang.gudang.id}}" th:text="${gudangBarang.gudang.nama}"></a>
+                    </td>
+                    <td th:text="${gudangBarang.gudang.alamat_gudang}"></td>
+                    <!-- Tambahkan akses ke atribut stok dari GudangBarang di sini -->
+                    <td th:text="${gudangBarang.stok}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

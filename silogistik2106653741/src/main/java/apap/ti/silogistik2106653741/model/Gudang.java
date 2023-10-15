@@ -1,21 +1,42 @@
 package apap.ti.silogistik2106653741.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
-@AllArgsConstructor
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Data
 @Table(name = "gudang")
 public class Gudang {
     @Id
+    @NotNull
+    // @Size(max = 20)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "nama", nullable = false)
     private String nama;
 
-    private String alamatGudang;
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "alamat_gudang", nullable = false)
+    private String alamat_gudang;
+
+    @OneToMany(mappedBy = "gudang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<GudangBarang> listBarang = new ArrayList<>();
+
 }
+
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Restock Barang</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container mt-5">
+        <h2>Restock Gudang</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Nama Gudang:</h4>
+                <p th:text="${gudangDTO.nama}"></p>
+                <h4>Alamat Gudang:</h4>
+                <p th:text="${gudangDTO.alamat_gudang}"></p>
+            </div>
+        </div>
+        <hr />
+        
+        <div class="row">
+            <form th:action="@{/gudang/{idGudang}/restock-barang(idGudang=${gudangDTO.id})}" th:object="${gudangDTO}" method="POST">
+                <div class="col-md-12">
+                    <div style="display: flex; flex-direction: column; align-items: right; margin-top: 10px; margin-bottom: 20px; width: 150px;">
+                        <button class="btn btn-primary" type="submit" name="addRow" style="text-align: right;">+ Tambah Barang</button>
+                    </div>
+                    <table class="table table-striped table-bordered" style="margin-bottom: 50px;" id="barangTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Barang</th>
+                                <th>Kuantitas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                
+                            <tr th:each="barang, iterationStatus : *{listBarang}">
+                                <td th:text="${iterationStatus.index + 1}"></td>
+                                <td>
+                                    <select th:field="*{listBarang[__${iterationStatus.index}__].barang.sku}" class="form-control">
+                                        <option th:each="barangExisting : ${listBarangExisting}" th:value="${barangExisting.sku}" th:text="${barangExisting.merk}"></option>
+                                    </select>                                    
+                                </td>
+                                <td>
+                                    <input th:field="*{listBarang[__${iterationStatus.index}__].stok}" type="number" class="form-control" required/>
+                                </td>
+                                
+                              </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="text-align: center;">
+                    <a href="/gudang" class="btn btn-danger">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+
+        </div>
+        <hr />
+    </div>
+</body>
+</html>
+
+
+
+

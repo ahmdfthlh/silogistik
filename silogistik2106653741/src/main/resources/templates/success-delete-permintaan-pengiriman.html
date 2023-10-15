@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>Success Cancel Permintaan Pengiriman</title>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container">
+        <div class="card m-4 p-4">
+            <div class="card-body">
+                <div class="text-center">
+                    <p style="font-size: 50px; color: green;"><i class="fas fa-check-circle"></i></p>
+                </div>
+                <div class="text-center">
+                    <h2 th:text="'Permintaan pengiriman dengan nomor pengiriman ' + ${nomorPengiriman} + ' berhasil dihapus.'"></h2>
+                </div>
+                <div class="text-center mt-5">
+                    <a type="button" class="btn btn-md btn-primary" href="/">Kembali ke beranda</a>
+                </div>
+            </div>
+          </div>
+    </div>
+</body>
+</html>

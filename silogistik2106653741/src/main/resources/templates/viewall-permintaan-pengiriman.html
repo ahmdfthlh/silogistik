@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Daftar Permintaan Pengiriman</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+                /* Gaya badge untuk status "Dibatalkan" */
+        .badge-danger {
+            background-color: red;
+            color: white;
+        }
+
+        /* Gaya badge untuk status "Aktif" */
+        .badge-success {
+            background-color: green;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+    <div class="container mt-5">
+        <div class="header">
+            <h2>Daftar Permintaan Pengiriman</h2>
+            <a type="button" class="btn btn-primary m-2" href="/permintaan-pengiriman/tambah">+ Tambah Permintaan Pengiriman</a>
+        </div>
+        <table class="table table-striped table-bordered mt-3" id="gudangTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Status</th>
+                    <th>Waktu Permintaan</th>
+                    <th>Nomor Pengiriman</th>
+                    <th>Nama Penerima</th>
+                    <th>Alamat Penerima</th>
+                    <th>Tanggal Pengiriman</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="permintaanPengiriman, iterStat : ${listPermintaanPengiriman}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td>
+                        <span th:classappend="${permintaanPengiriman.is_cancelled} ? 'badge badge-danger' : 'badge badge-success'">
+                            <span th:text="${permintaanPengiriman.is_cancelled} ? 'Dibatalkan' : 'Aktif'"></span>
+                        </span>
+                    </td>
+                    <td th:text="${#dates.format(permintaanPengiriman.waktuPermintaan, 'dd-MM-yyyy, HH:mm')}"></td>
+                    <td th:text="${permintaanPengiriman.nomor_pengiriman}"></td>
+                    <td th:text="${permintaanPengiriman.nama_penerima}"></td>
+                    <td th:text="${permintaanPengiriman.alamat_penerima}"></td>
+                    <td th:text="${#dates.format(permintaanPengiriman.tanggal_pengiriman, 'dd-MM-yyyy')}"></td>
+                    <td>
+                        <a th:href="@{'/permintaan-pengiriman/' + ${permintaanPengiriman.id}}" class="btn btn-primary">Detail</a>
+                    </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

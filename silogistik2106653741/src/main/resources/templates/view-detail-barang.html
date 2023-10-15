@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link th:include="~{fragments/common :: css}" th:remove="tag" />
+    <script th:include="~{fragments/common :: js}" th:remove="tag"></script>
+    <title>Detail Barang</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px; /* Atur jarak antar item jika diperlukan */
+            text-align: left; /* Atur rata kiri untuk teks */
+        }
+
+        span {
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            margin: 0; /* Menghapus margin bawah yang ada secara default pada elemen <p> */
+        }
+
+    </style>
+</head>
+<body>
+    <nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+    <div class="container mt-5">
+        <div class="header">
+            <h2>Detail Barang</h2>
+            <a type="button" class="btn btn-primary m-2" th:href="@{/barang/{sku}/ubah(sku=${sku})}">Edit</a>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="item">
+                    <h4>Merk:</h4>
+                    <p th:text="${barang.merk}"></p>
+                </div>
+                
+                <div class="item">
+                    <h4>SKU:</h4>
+                    <p th:text="${barang.sku}"></p>
+                </div>
+
+                
+                <div class="item">
+                    <h4>Tipe Barang:</h4>
+                    <p th:switch="${barang.tipe_barang}">
+                        <span th:case="1">Produk Elektronik</span>
+                        <span th:case="2">Pakaian & Aksesoris</span>
+                        <span th:case="3">Makanan & Minuman</span>
+                        <span th:case="4">Kosmetik</span>
+                        <span th:case="5">Perlengkapan Rumah</span>
+                        <span th:case="*">Tipe Barang Tidak Diketahui</span>
+                    </p>
+                </div>
+
+                
+                <div class="item">
+                    <h4>Total Stok:</h4>
+                    <p th:text="${@barangService.getStokBarang(barang)}"></p>
+                </div>
+
+                <div class="item">
+                    <h4>Harga:</h4>
+                    <span>
+                        <p>Rp</p>
+                        <p th:text="${barang.harga_barang}"></p> 
+                    </span> 
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Daftar Gudang</h3>
+                <table class="table table-striped table-bordered" id="barangTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama Gudang</th>
+                            <th>Alamat Gudang</th>
+                            <th>Stok</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="gudangBarang, iterStat : ${barang.listGudang}">
+                            <td th:text="${iterStat.index + 1}"></td>
+                            <td>
+                                <a style="text-decoration: none;" th:href="@{'/gudang/' + ${gudangBarang.gudang.id}}" th:text="${gudangBarang.gudang.nama}"></a>
+                            </td>
+                            <td th:text="${gudangBarang.gudang.alamat_gudang}"></td>
+                            <td th:text="${gudangBarang.stok}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div style="text-align: center;">
+                <a href="/barang" class="btn btn-primary">Kembali</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
